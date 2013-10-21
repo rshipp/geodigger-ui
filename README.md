@@ -1,6 +1,4 @@
-showdata
-========
+GeoDiggerUI
+===========
 
-The visualization portion of the project (web frontend).
-
-TODO: Pick a better name...
+The web interface for GeoDigger, which allows filtering of GeoDigger information.
