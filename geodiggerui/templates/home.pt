@@ -23,7 +23,18 @@
             <div class="row form-group">
                 <h3>Time period</h3>
 
-                <div id="slider" class="slider"></div>
+                <div id="slider"></div>
+                <script type="text/javascript"
+                      src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+                <script type="text/javascript"
+                      src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+                <script type="text/javascript"
+                      src="//ghusse.github.io/jQRangeSlider/stable/lib/jquery.mousewheel.min.js"></script>
+                <script type="text/javascript"
+                      src="//ghusse.github.io/jQRangeSlider/stable/jQDateRangeSliders-min.js"></script>
+                <script>
+                    $("#slider").dateRangeSlider();
+                </script>
 
                 <div class="col-md-6">
                     <label class="row control-label">Include
