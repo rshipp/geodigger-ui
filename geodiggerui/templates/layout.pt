@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 STRICT//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      metal:define-macro="layout">
+<head>
+    <title>${title} | GeoDigger UI</title>
+    <link rel="stylesheet"
+          href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"/>
+    <script type="text/javascript"
+          src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div id="main">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="row">
+            <h2>${title}</h2>
+            <div metal:define-slot="content">
+            </div>
+        </div>
+        <div class="row">
+            <br><br><br>
+        </div>
+    </div>
+</div>
+</body>
+</html>
