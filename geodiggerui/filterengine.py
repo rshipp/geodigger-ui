@@ -38,13 +38,13 @@ class FilterEngine(object):
         # Set up MongoDB connection.
 
     # Private member functions.
-    formPolygon(self):
+    def formPolygon(self):
         """Reads a list of lists/tuples from a member variable, and
            returns a binary SON object in valid GeoJSON format.
         """
         pass
 
-    formQuery(self):
+    def formQuery(self):
         """Forms the finalized Mongo query from member variable
            contents, and returns it as a SON object.
         """

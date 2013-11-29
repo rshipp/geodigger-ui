@@ -6,13 +6,10 @@ Home-page: UNKNOWN
 Author: UNKNOWN
 Author-email: UNKNOWN
 License: UNKNOWN
-Description: geodiggerui README
+Description: GeoDiggerUI
+        ===========
         
-        
-        0.0
-        ---
-        
-        -  Initial version
+        The web interface for GeoDigger, which allows filtering of GeoDigger information.
         
 Keywords: web pyramid pylons
 Platform: UNKNOWN

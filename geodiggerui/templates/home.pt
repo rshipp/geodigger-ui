@@ -1,5 +1,102 @@
 <div metal:use-macro="view.layout">
     <div metal:fill-slot="content">
+        <div tal:condition="error">
+            <div class="alert alert-danger">${error}</div>
+        </div>
+        <form action="/" method="POST">
+            <!-- Feature: saved filters
+            <label>Load saved filter</label>
+            <select class="form-control" id="filter" name="filter"/>
+            <div tal:repeat="filter savedfilters">
+                <option value="${filter}">${filter}
+            </div>
+            </select>
+            -->
+            
+            <!-- Map placeholder -->
+            <div class="row form-group">
+                <h3>Location</h3>
+                <div style='width:780px; height:600px; background:lightgrey;'></div>
+            </div>
 
+            <!-- Date/time parameters -->
+            <div class="row form-group">
+                <h3>Time period</h3>
+
+                <div id="slider" class="slider"></div>
+
+                <div class="col-md-6">
+                    <label class="row control-label">Include
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" checked> Weekdays
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" checked> Weekends
+                        </label>
+                    </div>
+                    </label>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="control-label">Period currently selected</label>
+                    <p class="form-control-static">XX weeks</p>
+                </div>
+            </div>
+
+            <!-- Source -->
+            <div class="row form-group">
+                <h3>Source</h3>
+                <div tal:repeat="source sources">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" checked> ${source}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users -->
+            <div class="row form-group">
+                <h3>Users</h3>
+                <input type="text" class="form-control" id="users"
+                       name="users" placeholder="Default: All users">
+            </div>
+
+            <!-- Download type -->
+            <div class="row form-group">
+                <h3>Download type</h3>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="downloadtype"
+                               id="downloadtype1" value="CSV" checked> CSV
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="downloadtype"
+                               id="downloadtype2" value="JSON"> JSON
+                    </label>
+                </div>
+            </div>
+
+            <!-- Spacer -->
+            <div class="row">
+                <br><br>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row form-group">
+                <button class="btn btn-primary" type="submit"
+                        name="submit">Run Query
+                </button>
+                <!-- Feature: saved filters
+                <button class="btn" type="save" name="save">Save Filter
+                </button>
+                -->
+            </div>
+        </form>
     </div>
 </div>

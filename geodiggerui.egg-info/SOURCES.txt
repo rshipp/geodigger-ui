@@ -1,11 +1,10 @@
-CHANGES.txt
 MANIFEST.in
-README.txt
 development.ini
 production.ini
 setup.cfg
 setup.py
 geodiggerui/__init__.py
+geodiggerui/filterengine.py
 geodiggerui/tests.py
 geodiggerui/views.py
 geodiggerui.egg-info/PKG-INFO
@@ -24,4 +23,5 @@ geodiggerui/static/pylons.css
 geodiggerui/static/pyramid-small.png
 geodiggerui/static/pyramid.png
 geodiggerui/static/transparent.gif
-geodiggerui/templates/mytemplate.pt
+geodiggerui/templates/home.pt
+geodiggerui/templates/layout.pt

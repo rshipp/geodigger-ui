@@ -8,16 +8,29 @@
     <title>${title} | GeoDigger UI</title>
     <link rel="stylesheet"
           href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="//ghusse.github.io/jQRangeSlider/stable/css/iThing.css"/>
     <script type="text/javascript"
           src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript"
+          src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript"
+          src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript"
+          src="//ghusse.github.io/jQRangeSlider/stable/lib/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript"
+          src="//ghusse.github.io/jQRangeSlider/stable/jQAllRangeSliders-min.js"></script>
+    <script>
+        $("#slider").rangeSlider();
+    </script>
 </head>
 <body>
 <div id="main">
     <div class="col-md-8 col-md-offset-2">
         <div class="row">
             <h2>${title}</h2>
-            <div metal:define-slot="content">
-            </div>
+        </div>
+        <div metal:define-slot="content">
         </div>
         <div class="row">
             <br><br><br>

@@ -18,7 +18,8 @@ class GeoDiggerUI(object):
             renderer='templates/home.pt',
             request_method='GET')
     def home_get(self):
-        return dict(title='Home')
+        return dict(title='Filter Parameters', sources=['Twitter'],
+                    error=None)
 
     @view_config(route_name='home',
             renderer='templates/home.pt',

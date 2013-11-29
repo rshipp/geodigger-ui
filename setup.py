@@ -10,6 +10,7 @@ requires = [
     'pyramid_debugtoolbar',
     'waitress',
     'pyramid_chameleon',
+    'pymongo',
     ]
 
 setup(name='geodiggerui',
