@@ -1,7 +1,7 @@
 <div metal:use-macro="view.layout">
     <div metal:fill-slot="content">
         <div tal:condition="error">
-            <div class="alert alert-danger">${error}</div>
+            <div class="row alert alert-danger">${error}</div>
         </div>
         <form action="/" method="POST">
             <!-- Feature: saved filters
@@ -15,51 +15,76 @@
             
             <!-- Map placeholder -->
             <div class="row form-group">
-                <h3>Location</h3>
+                <h3>
+                    <small>
+                        <span class="glyphicon glyphicon-globe"></span>
+                    </small> Location
+                </h3>
                 <div style='width:780px; height:600px; background:lightgrey;'></div>
             </div>
 
             <!-- Date/time parameters -->
             <div class="row form-group">
-                <h3>Time period</h3>
+                <h3>
+                    <small>
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </small> Time Period
+                </h3>
 
                 <div id="slider"></div>
-                <script type="text/javascript"
-                      src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-                <script type="text/javascript"
-                      src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
-                <script type="text/javascript"
-                      src="//ghusse.github.io/jQRangeSlider/stable/lib/jquery.mousewheel.min.js"></script>
-                <script type="text/javascript"
-                      src="//ghusse.github.io/jQRangeSlider/stable/jQDateRangeSliders-min.js"></script>
+                <script src="${request.static_url('geodiggerui:static/jquery-ui.min.js')}"></script>
+                <script src="${request.static_url('geodiggerui:static/jquery.mousewheel.min.js')}">
+                </script>
+                <script src="${request.static_url('geodiggerui:static/jQRangeSliderMouseTouch.js')}">
+                </script>
+                <script src="${request.static_url('geodiggerui:static/jQRangeSliderDraggable.js')}">
+                </script>
+                <script src="${request.static_url('geodiggerui:static/jQRangeSliderBar.js')}"></script>
+                <script src="${request.static_url('geodiggerui:static/jQRangeSliderHandle.js')}"></script>
+                <script src="${request.static_url('geodiggerui:static/jQRangeSliderLabel.js')}"></script>
+                <script src="${request.static_url('geodiggerui:static/jQRangeSlider.js')}"></script>
+                <script src="${request.static_url('geodiggerui:static/jQDateRangeSliderHandle.js')}">
+                </script>
+                <script src="${request.static_url('geodiggerui:static/jQDateRangeSlider.js')}"></script>
+                <script src="${request.static_url('geodiggerui:static/jQRuler.js')}"></script>
                 <script>
-                    $("#slider").dateRangeSlider();
+                    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+                    $(function(){
+                            $("#slider").dateRangeSlider(${sliderOptions});
+                    });//]]> 
                 </script>
 
+                <div class="row"><br></div>
+
                 <div class="col-md-6">
-                    <label class="row control-label">Include
-                    <div class="checkbox">
+                    <label class="row control-label">Include</label>
+                    <div class="row checkbox">
                         <label>
-                            <input type="checkbox" checked> Weekdays
+                            <input type="checkbox" name="weekdays"
+                                   value="weekdays" checked> Weekdays
                         </label>
                     </div>
-                    <div class="checkbox">
+                    <div class="row checkbox">
                         <label>
-                            <input type="checkbox" checked> Weekends
+                            <input type="checkbox" name="weekends"
+                                   value="weekends" checked> Weekends
                         </label>
                     </div>
-                    </label>
                 </div>
 
                 <div class="col-md-6">
-                    <label class="control-label">Period currently selected</label>
-                    <p class="form-control-static">XX weeks</p>
+                    <label class="row control-label">Period currently selected</label>
+                    <p class="row form-control-static">XX weeks</p>
                 </div>
             </div>
 
             <!-- Source -->
             <div class="row form-group">
-                <h3>Source</h3>
+                <h3>
+                    <small>
+                        <span class="glyphicon glyphicon-cloud"></span>
+                    </small> Source
+                </h3>
                 <div tal:repeat="source sources">
                     <div class="checkbox">
                         <label>
@@ -71,14 +96,22 @@
 
             <!-- Users -->
             <div class="row form-group">
-                <h3>Users</h3>
+                <h3>
+                    <small>
+                        <span class="glyphicon glyphicon-user"></span>
+                    </small> Users
+                </h3>
                 <input type="text" class="form-control" id="users"
                        name="users" placeholder="Default: All users">
             </div>
 
             <!-- Download type -->
             <div class="row form-group">
-                <h3>Download type</h3>
+                <h3>
+                    <small>
+                        <span class="glyphicon glyphicon-file"></span>
+                    </small> Download type
+                </h3>
                 <div class="radio">
                     <label>
                         <input type="radio" name="downloadtype"
@@ -104,7 +137,9 @@
                         name="submit">Run Query
                 </button>
                 <!-- Feature: saved filters
-                <button class="btn" type="save" name="save">Save Filter
+                <button class="btn" type="save" name="save">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                    Save Filter
                 </button>
                 -->
             </div>
