@@ -35,7 +35,7 @@ class FilterEngine(object):
     def __init__(self):
         # Set up initial member variables.
         pass
-        # Set up MongoDB connection.
+        # Set up MongoDB variables.
 
     # Private member functions.
     def formPolygon(self):
@@ -87,7 +87,7 @@ class FilterEngine(object):
 
     # Run the query.
     def query(self):
-        """Send the pre-formed query to the MongoDB server.
+        """Connect to the MongoDB server and send the pre-formed query.
            Returns the raw results of the query.
         """
         pass

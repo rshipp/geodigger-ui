@@ -1,7 +1,10 @@
 <div metal:use-macro="view.layout">
     <div metal:fill-slot="content">
+        <div class="row">
+            <h2>${title}</h2>
+        </div>
         <div tal:condition="error">
-            <div class="row alert alert-danger">${error}</div>
+            <div class="row alert alert-danger"><strong>Error:</strong> ${error}</div>
         </div>
         <form action="/filter" method="POST">
             <!-- Feature: saved filters
@@ -88,7 +91,8 @@
                 <div tal:repeat="source sources">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" checked> ${source}
+                            <input type="checkbox" name="source_${source}"
+                                   id="source_${source}" checked> ${source}
                         </label>
                     </div>
                 </div>
