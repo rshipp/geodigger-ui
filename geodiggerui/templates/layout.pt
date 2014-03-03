@@ -10,6 +10,7 @@
           href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css"
           href="${request.static_url('geodiggerui:static/iThing.css')}"/>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
     <script type="text/javascript"
           src="${request.static_url('geodiggerui:static/jquery-1.9.1.js')}"></script>
     <script type="text/javascript"

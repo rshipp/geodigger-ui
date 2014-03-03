@@ -54,7 +54,7 @@ class FilterEngine(object):
     # Query forming methods.
     def users(self, users):
         """Accepts a list of userIDs and adds them to the query.
-           No return. (Void method.)
+           No return.
         """
         pass
 
@@ -62,7 +62,7 @@ class FilterEngine(object):
         """Accepts a list with two entries representing a start and end
            date/time, and two boolean values that determine whether or not
            to include weekends/weekdays.
-           No return. (Void method.)
+           No return.
         """
         pass
 
@@ -73,14 +73,14 @@ class FilterEngine(object):
            otherwise it is assumed to be a Polygon. In the case of a
            single Point, `range` must be set to a non-negative integer
            value; for polygons this value is ignored.
-           No return. (Void method.)
+           No return.
         """
         pass
 
     def sources(self, sources):
         """Accepts a list of strings representing the source of the
            data point.
-           No return. (Void method.)
+           No return.
         """
         pass
 

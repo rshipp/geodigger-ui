@@ -7,23 +7,32 @@
             <div class="row alert alert-danger"><strong>Error:</strong> ${error}</div>
         </div>
         <form action="/filter" method="POST">
-            <!-- Feature: saved filters
-            <label>Load saved filter</label>
-            <select class="form-control" id="filter" name="filter"/>
-            <div tal:repeat="filter savedfilters">
-                <option value="${filter}">${filter}
-            </div>
-            </select>
-            -->
-            
             <!-- Map placeholder -->
+            <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
             <div class="row form-group">
                 <h3>
                     <small>
                         <span class="glyphicon glyphicon-globe"></span>
                     </small> Location
                 </h3>
-                <div style='width:780px; height:600px; background:lightgrey;'></div>
+                <div class="col-md-4">
+                    <textarea class="form-control" rows=15></textarea>
+                    <br>
+                    <button class="btn btn-primary" type="update"
+                            name="update">Update Map
+                    </button>
+                </div>
+                <div class="col-md-8">
+                    <div id="map" style='height:450px'></div>
+                    <script>
+                    var map = L.map('map').setView([30,-10], 2);
+                    L.tileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+                        maxZoom: 18,
+                        subdomains: ['1', '2', '3', '4'],
+                        attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a>. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
+                    }).addTo(map);
+                    </script>
+                </div>
             </div>
 
             <!-- Date/time parameters -->
@@ -59,25 +68,20 @@
 
                 <div class="row"><br></div>
 
-                <div class="col-md-6">
-                    <label class="row control-label">Include</label>
-                    <div class="row checkbox">
-                        <label>
-                            <input type="checkbox" name="weekdays"
-                                   value="weekdays" checked> Weekdays
-                        </label>
+                <div class="col-md-12">
+                    <label class="row control-label">Period currently selected: XX weeks</label>
+                    <div class="row">
+                        <div class="col-md-6 input-group">
+                            <span class="input-group-addon">From</span>
+                            <input type="text" class="form-control" id="minDate"
+                                   name="minDate" placeholder="">
+                        </div>
+                        <div class="col-md-6 input-group">
+                            <span class="input-group-addon">To</span>
+                            <input type="text" class="form-control" id="maxDate"
+                                   name="maxDate" placeholder="">
+                        </div>
                     </div>
-                    <div class="row checkbox">
-                        <label>
-                            <input type="checkbox" name="weekends"
-                                   value="weekends" checked> Weekends
-                        </label>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="row control-label">Period currently selected</label>
-                    <p class="row form-control-static">XX weeks</p>
                 </div>
             </div>
 
@@ -140,12 +144,6 @@
                 <button class="btn btn-primary" type="submit"
                         name="submit">Run Query
                 </button>
-                <!-- Feature: saved filters
-                <button class="btn" type="save" name="save">
-                    <span class="glyphicon glyphicon-floppy-disk"></span>
-                    Save Filter
-                </button>
-                -->
             </div>
         </form>
     </div>

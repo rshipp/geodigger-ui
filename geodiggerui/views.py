@@ -6,7 +6,7 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.renderers import get_renderer
 from pyramid.view import view_config
 
-from filterengine import FilterEngine
+import geodiggerui.config as config
 
 
 class GeoDiggerUI(object):
@@ -36,6 +36,12 @@ class GeoDiggerUI(object):
             }],
         }).replace("'", '')
 
+        # Connect to the database.
+        #conn = pymongo.Connection(config.mongo['server'])
+        #db = conn[config.mongo['database']]
+        #self.db = db[config.mongo['collection']]
+
+
     @view_config(route_name='home',
             renderer='templates/home.pt',
             request_method='GET')
@@ -57,44 +63,48 @@ class GeoDiggerUI(object):
 
         # Validate the form, regardless of the button clicked.
         try:
-            f = FilterEngine()
+            query = dict()
+
             # TODO: Get geometry
-            if 'weekends' in self.request.params:
-                weekends = True
-            else:
-                weekends = False
-            if 'weekdays' in self.request.params:
-                weekdays = True
-            else:
-                weekdays = False
-            # TODO: Get min/max date
-            if (minDate != self.minDate and maxDate != self.maxDate) or (
-                    weekends == False or weekdays == False):
-                f.datetime(daterange, weekends, weekdays)
+
+
+            # Get min/max date.
+            minDate = self.request.POST['minDate']
+            maxDate = self.request.POST['maxDate']
+            if (minDate != u'' and minDate != self.minDate):
+                query['minDate'] = self.request.POST['minDate']
+
+            if (maxDate != u'' and maxDate != self.maxDate):
+                query['maxDate'] = self.request.POST['maxDate']
+
+            # Get sources.
             sources = []
             for source in self.sources:
                 if 'source_'+source in self.request.params:
-                    sources += source
-            if sources != []:
-                f.sources(sources)
-            if self.request.POST['users'] != u'':
-                users = self.request.POST['users'].replace(' ', '').split(',')
-                f.users(users)
-            if self.request.POST['downloadtype'] == u'JSON':
-                self.downloadtype = 'JSON'
-            else:
-                self.downloadtype = 'CSV'
+                    sources += [source.lower()]
+            query['source'] = {'$in': sources}
 
-            # Run the query or save the filter.
+            # Get users.
+            if self.request.POST['users'] != u'':
+                users = str(self.request.POST['users'].replace(' ','')).split(',')
+                query['userID'] = {'$in': users}
+
+            # Get download type.
+            if self.request.POST['downloadtype'] == u'CSV':
+                self.downloadtype = 'CSV'
+            else:
+                self.downloadtype = 'JSON'
+
+            # Run the query.
             if 'submit' in self.request.params:
-                # Run the query, redirect to the file.    
+                # Run the query, redirect to the file.
+                print query
                 #url = self.request.route_url('download')
                 #return HTTPFound(url)
-                pass
             
         except Exception as e:
             return dict(title='Filter Parameters', sources=self.sources,
                     sliderOptions=self.sliderOptions, error=e.message)
 
         return dict(title='Filter Parameters', sources=self.sources,
-                sliderOptions=self.sliderOptions, error="Error")
+                sliderOptions=self.sliderOptions, error="No Error")
