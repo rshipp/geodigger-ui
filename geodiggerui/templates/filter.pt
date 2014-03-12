@@ -4,9 +4,9 @@
             <h2>${title}</h2>
         </div>
         <div tal:condition="error">
-            <div class="row alert alert-danger"><strong>Error:</strong> ${error}</div>
+            <div class="row alert alert-danger" id="error"><strong>Error:</strong> ${error}</div>
         </div>
-        <form action="/filter" method="POST">
+        <form action="/" method="POST">
             <!-- Map placeholder -->
             <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
             <div class="row form-group">
@@ -16,10 +16,10 @@
                     </small> Location
                 </h3>
                 <div class="col-md-4">
-                    <textarea class="form-control" rows=15></textarea>
+                    <textarea class="form-control" id="geojson" name="geojson" rows=18></textarea>
                     <br>
-                    <button class="btn btn-primary" type="update"
-                            name="update">Update Map
+                    <button class="btn btn-primary" type="button"
+                            name="update_map" id="update_map">Update Map
                     </button>
                 </div>
                 <div class="col-md-8">
@@ -31,6 +31,32 @@
                         subdomains: ['1', '2', '3', '4'],
                         attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a>. Map data (c) <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, CC-BY-SA.'
                     }).addTo(map);
+
+                    var lastLayer = null;
+                    $("#update_map").click(function(){
+                        if (lastLayer != null) {
+                            map.removeLayer(lastLayer);
+                        }
+                        try {
+                            var polygon = [{
+                                "type": "Feature",
+                                "properties": {
+                                    "name": "Region",
+                                    "show_on_map": true
+                                },
+                                "geometry": $.parseJSON($("#geojson").val()),
+                                },
+                            ];
+                        } catch (e if e instanceof SyntaxError) {
+                            alert("Error in GeoJSON input: "+e.message);
+                        }
+                        lastLayer = L.geoJson(polygon, {
+                            filter: function(feature, layer) {
+                                return feature.properties.show_on_map;
+                            }
+                        }).addTo(map);
+                        map.fitBounds(lastLayer.getBounds());
+                    });
                     </script>
                 </div>
             </div>
@@ -63,23 +89,30 @@
                     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
                     $(function(){
                             $("#slider").dateRangeSlider(${sliderOptions});
-                    });//]]> 
+                    });
+                    $("#slider").bind("userValuesChanged", function(e, data) {
+                            $("#minDate").val(data.values.min.toUTCString());
+                            $("#maxDate").val(data.values.max.toUTCString());
+                            $("#weeks").html("Period currently selected: about " +
+                                Math.round((data.values.max-data.values.min)/(1000*60*60*24*7))+
+                                " weeks"
+                                );
+                    });
                 </script>
 
                 <div class="row"><br></div>
 
                 <div class="col-md-12">
-                    <label class="row control-label">Period currently selected: XX weeks</label>
+                    <label class="row control-label" id="weeks">
+                        Period currently selected: entire time period</label>
                     <div class="row">
-                        <div class="col-md-6 input-group">
+                        <div style="display:none;">
                             <span class="input-group-addon">From</span>
-                            <input type="text" class="form-control" id="minDate"
-                                   name="minDate" placeholder="">
+                            <input type="text" class="form-control" id="minDate" name="minDate">
                         </div>
-                        <div class="col-md-6 input-group">
+                        <div style="display:none;">
                             <span class="input-group-addon">To</span>
-                            <input type="text" class="form-control" id="maxDate"
-                                   name="maxDate" placeholder="">
+                            <input type="text" class="form-control" id="maxDate" name="maxDate">
                         </div>
                     </div>
                 </div>
@@ -107,7 +140,7 @@
                 <h3>
                     <small>
                         <span class="glyphicon glyphicon-user"></span>
-                    </small> Users
+                    </small> Number of Users
                 </h3>
                 <input type="text" class="form-control" id="users"
                        name="users" placeholder="Default: All users">

@@ -1,6 +1,8 @@
 import re
 import exceptions
 import pymongo
+from datetime import datetime
+import ast
 
 from pyramid.httpexceptions import HTTPFound
 from pyramid.renderers import get_renderer
@@ -65,17 +67,30 @@ class GeoDiggerUI(object):
         try:
             query = dict()
 
-            # TODO: Get geometry
-
+            # Get geometry.
+            if (self.request.POST['geojson'] != u''):
+                geojson = ast.literal_eval(self.request.POST['geojson'])
+                query['coordinates'] = {
+                    '$within': {
+                        '$polygon': geojson['coordinates'][0],
+                    },
+                }
 
             # Get min/max date.
             minDate = self.request.POST['minDate']
             maxDate = self.request.POST['maxDate']
-            if (minDate != u'' and minDate != self.minDate):
-                query['minDate'] = self.request.POST['minDate']
+            datefmt = '%a, %d %b %Y %H:%M:%S %Z'
+            if (minDate != u'' or maxDate != u''):
+                query['time'] = {}
+            if (minDate != u''):
+                minDate = datetime.strptime(minDate, datefmt).date()
+                query['time']['$gt'] = minDate
+            if (maxDate != u''):
+                maxDate = datetime.strptime(maxDate, datefmt).date()
+                query['time']['$lt'] = maxDate
 
-            if (maxDate != u'' and maxDate != self.maxDate):
-                query['maxDate'] = self.request.POST['maxDate']
+            # Get weekends/weekdays.
+            # TODO: Aggregation, use $dayOfWeek.
 
             # Get sources.
             sources = []
@@ -86,8 +101,10 @@ class GeoDiggerUI(object):
 
             # Get users.
             if self.request.POST['users'] != u'':
-                users = str(self.request.POST['users'].replace(' ','')).split(',')
-                query['userID'] = {'$in': users}
+                users = int(self.request.POST['users'])
+                #query['userID'] = {'$in': users}
+                # TODO: Aggregation, limit the number of users.
+                # Randomize data first!
 
             # Get download type.
             if self.request.POST['downloadtype'] == u'CSV':
