@@ -68,7 +68,7 @@ class GeoDiggerUI(object):
             query = dict()
 
             # Get geometry.
-            if (self.request.POST['geojson'] != u''):
+            if self.request.POST['geojson'] != u'':
                 geojson = ast.literal_eval(self.request.POST['geojson'])
                 query['coordinates'] = {
                     '$within': {
@@ -112,9 +112,15 @@ class GeoDiggerUI(object):
             else:
                 self.downloadtype = 'JSON'
 
+            # Get email.
+            if self.request.POST['email'] != u'':
+                email = str(self.request.POST['email'])
+            else:
+                raise Exception("You must provide an email address.")
+
             # Run the query.
             if 'submit' in self.request.params:
-                # Run the query, redirect to the file.
+                # Run the query, redirect to the wait for email page.
                 print query
                 #url = self.request.route_url('download')
                 #return HTTPFound(url)

@@ -168,6 +168,17 @@
                 </div>
             </div>
 
+            <!-- Email address -->
+            <div class="row form-group">
+                <h3>
+                    <small>
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </small> Email Address
+                </h3>
+                <input type="text" class="form-control" id="email"
+                       name="email" placeholder="">
+            </div>
+
             <!-- Spacer -->
             <div class="row">
                 <br><br>
