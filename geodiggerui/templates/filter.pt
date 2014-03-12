@@ -105,7 +105,7 @@
             <div class="row"><br></div>
 
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-9">
                     <label class="row control-label" id="weeks">
                         Period currently selected: entire time period
                     </label>
@@ -114,19 +114,21 @@
                         <input type="text" class="form-control" id="maxDate" name="maxDate">
                     </div>
                 </div>
-
-                <!-- <div class="col-md-6"> -->
-                    <div class="col-md-2">
-                        <label for="weekdays">
-                            <input type="checkbox" name="weekdays" value="weekdays" checked> Weekdays
-                        </label>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="weekends">
-                            <input type="checkbox" name="weekends" value="weekends" checked> Weekends
-                        </label>
-                    </div>
-                <!-- </div> -->
+                <div class="col-md-3">
+                    Time reference is UTC +0000
+                </div>
+                <!-- Weekdays/Weekends 
+                <div class="col-md-2">
+                    <label for="weekdays">
+                        <input type="checkbox" name="weekdays" value="weekdays" checked> Weekdays
+                    </label>
+                </div>
+                <div class="col-md-2">
+                    <label for="weekends">
+                        <input type="checkbox" name="weekends" value="weekends" checked> Weekends
+                    </label>
+                </div>
+                -->
             </div>
 
             <!-- Source -->

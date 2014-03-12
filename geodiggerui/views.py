@@ -89,12 +89,12 @@ class GeoDiggerUI(object):
                 maxDate = datetime.strptime(maxDate, datefmt).date()
                 query['time']['$lt'] = maxDate
 
-            # Get weekends/weekdays.
-            # TODO: Aggregation, use $dayOfWeek.
-            if 'weekends' in self.request.params:
-                weekends = True
-            if 'weekdays' in self.request.params:
-                weekends = True
+            ## Get weekends/weekdays.
+            ## Aggregation, use $dayOfWeek.
+            #if 'weekends' in self.request.params:
+            #    weekends = True
+            #if 'weekdays' in self.request.params:
+            #    weekends = True
 
             # Get sources.
             sources = []
