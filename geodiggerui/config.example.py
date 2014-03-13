@@ -3,3 +3,9 @@ mongo = {
     'database': 'geodigger',
     'collection': 'data',
 }
+email = {
+    'server': '',
+    'username': '',
+    'address': '',
+    'password': '',
+}

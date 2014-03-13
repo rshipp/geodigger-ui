@@ -74,7 +74,7 @@ class GeoDiggerUI(object):
             # Get geometry.
             if self.request.POST['geojson'] != u'':
                 geojson = ast.literal_eval(self.request.POST['geojson'])
-                query['coordinates'] = {
+                query['loc'] = {
                     '$within': {
                         '$polygon': geojson['coordinates'][0],
                     },
@@ -130,7 +130,8 @@ class GeoDiggerUI(object):
 
             # Run the query.
             if 'submit' in self.request.params:
-                querythread = QueryThread(self.db, query, email, userlimit, downloadtype)
+                querythread = QueryThread(self.db, query, email,
+                        userlimit, downloadtype, self.request.host)
                 querythread.start()
 
         except Exception as e:
