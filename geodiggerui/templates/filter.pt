@@ -1,5 +1,6 @@
 <div metal:use-macro="view.layout">
     <div metal:fill-slot="content">
+        <div tal:condition="python:error != 'done' and error != 'dberror'">
         <div class="row">
             <h2>${title}</h2>
         </div>
@@ -203,5 +204,30 @@
                 </button>
             </div>
         </form>
+        </div>
+
+        <div tal:condition="python:error == 'done'">
+            <div class="jumbotron" style="margin-top: 2em;">
+                <h2>Your query is running</h2>
+                <p>
+                A message will be sent to ${email} when the query has
+                completed and your file is ready for download.
+                </p>
+            </div>
+        </div>
+
+        <div tal:condition="python:error == 'dberror'">
+            <div class="jumbotron" style="margin-top: 2em;">
+                <h2>Error!</h2>
+                <p>
+                Could not connect to the database.
+                </p>
+                <p>
+                Please make sure your database settings are correct, and
+                your MongoDB server is running and accessible from this
+                web server.
+                </p>
+            </div>
+        </div>
     </div>
 </div>

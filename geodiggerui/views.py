@@ -9,6 +9,7 @@ from pyramid.renderers import get_renderer
 from pyramid.view import view_config
 
 import geodiggerui.config as config
+from geodiggerui.query import QueryThread
 
 
 class GeoDiggerUI(object):
@@ -39,30 +40,33 @@ class GeoDiggerUI(object):
         }).replace("'", '')
 
         # Connect to the database.
-        #conn = pymongo.Connection(config.mongo['server'])
-        #db = conn[config.mongo['database']]
-        #self.db = db[config.mongo['collection']]
+        try:
+            conn = pymongo.Connection(config.mongo['server'])
+            db = conn[config.mongo['database']]
+            self.db = db[config.mongo['collection']]
+            self.error = None
+        except pymongo.errors.ConnectionFailure:
+            self.db = None
+            self.error = 'dberror'
 
 
     @view_config(route_name='home',
             renderer='templates/home.pt',
             request_method='GET')
     def home_get(self):
-        return dict(title="Setup", progress=45, error=None)
+        return dict(title="Setup", progress=45, error=self.error)
 
     @view_config(route_name='filter',
             renderer='templates/filter.pt',
             request_method='GET')
     def filter_get(self):
         return dict(title='Filter Parameters', sources=self.sources,
-                sliderOptions=self.sliderOptions, error=None)
+                sliderOptions=self.sliderOptions, error=self.error)
 
     @view_config(route_name='filter',
             renderer='templates/filter.pt',
             request_method='POST')
     def filter_post(self):
-        print self.request.params
-
         # Validate the form, regardless of the button clicked.
         try:
             query = dict()
@@ -101,20 +105,22 @@ class GeoDiggerUI(object):
             for source in self.sources:
                 if 'source_'+source in self.request.params:
                     sources += [source.lower()]
-            query['source'] = {'$in': sources}
+            if sources != []:
+                query['source'] = {'$in': sources}
 
             # Get users.
             if self.request.POST['users'] != u'':
-                users = int(self.request.POST['users'])
-                #query['userID'] = {'$in': users}
+                userlimit = int(self.request.POST['users'])
                 # TODO: Aggregation, limit the number of users.
                 # Randomize data first!
+            else:
+                userlimit = 0
 
             # Get download type.
             if self.request.POST['downloadtype'] == u'CSV':
-                self.downloadtype = 'CSV'
+                downloadtype = 'CSV'
             else:
-                self.downloadtype = 'JSON'
+                downloadtype = 'JSON'
 
             # Get email.
             if self.request.POST['email'] != u'':
@@ -124,14 +130,13 @@ class GeoDiggerUI(object):
 
             # Run the query.
             if 'submit' in self.request.params:
-                # Run the query, redirect to the wait for email page.
-                print query
-                #url = self.request.route_url('download')
-                #return HTTPFound(url)
-            
+                querythread = QueryThread(self.db, query, email, userlimit, downloadtype)
+                querythread.start()
+
         except Exception as e:
             return dict(title='Filter Parameters', sources=self.sources,
                     sliderOptions=self.sliderOptions, error=e.message)
 
         return dict(title='Filter Parameters', sources=self.sources,
-                sliderOptions=self.sliderOptions, error="No Error")
+                sliderOptions=self.sliderOptions, error='done',
+                email=email)
