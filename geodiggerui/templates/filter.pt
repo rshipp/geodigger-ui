@@ -160,27 +160,6 @@
                        name="users" placeholder="Default: All users">
             </div>
 
-            <!-- Download type -->
-            <div class="row form-group">
-                <h3>
-                    <small>
-                        <span class="glyphicon glyphicon-file"></span>
-                    </small> Download type
-                </h3>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="downloadtype"
-                               id="downloadtype1" value="CSV" checked> CSV
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="downloadtype"
-                               id="downloadtype2" value="JSON"> JSON
-                    </label>
-                </div>
-            </div>
-
             <!-- Email address -->
             <div class="row form-group">
                 <h3>
