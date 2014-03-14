@@ -6,6 +6,7 @@ import geodiggerui.config as config
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
+    import geodiggerui.config as config
     # Make sure the Temp dir exists.
     ui_tmp_dir = config.ui['tmp']
     if not os.path.exists(ui_tmp_dir):
