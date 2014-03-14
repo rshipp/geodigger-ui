@@ -30,8 +30,7 @@ class GeoDiggerUI(object):
 
         # Read settings from the server.
         # TODO: Make this smarter.
-        first = datetime.datetime.strptime([r for r in self.db.find().limit(1)][0]['time'],
-                "%Y-%m-%d %H:%M:%S")
+        first = [r for r in self.db.find().limit(1)][0]['time']
         self.minDate = "2012, 0, 1" % (first.year, int(first.month-1), first.day)
         now = datetime.datetime.now()
         self.maxDate = "%s, %s, %s" % (now.year, int(now.month-1), now.day)
