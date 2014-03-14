@@ -1,3 +1,4 @@
+import os
 import smtplib
 import subprocess
 import random
