@@ -134,9 +134,11 @@ class QueryThread(threading.Thread):
                             skip = True
             # If a user limit was specified, use it.
             if self.userlimit != 0:
-                if self.userlimit >= seq:
-                    self.userlimit = seq-1
-                users = random.sample(range(1, seq),
+                numusers = int(subprocess.check_output(["tail", "-1",
+                    self.tfilepath]).split(',')[0])
+                if self.userlimit >= numusers:
+                    self.userlimit = numusers-1
+                users = random.sample(range(1, numusers),
                         self.userlimit)
                 with open(self.tfilepath, 'r+') as f, open(self.filepath, 'w+') as output:
                     for line in f:
