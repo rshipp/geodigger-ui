@@ -159,7 +159,7 @@ class QueryThread(threading.Thread):
             smtp = smtplib.SMTP_SSL(self.emailserver)
             smtp.login(self.username, self.password)
             smtp.sendmail(self.address, self.email,
-                "From: GeoDigger <"+e+">\n" +\
+                "From: GeoDigger <"+self.email+">\n" +\
                 "To: " + self.email + "\n" +\
                 "Subject: Query Results\n\n" + msg)
             smtp.quit()
