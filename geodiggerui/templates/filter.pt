@@ -48,8 +48,12 @@
                                 "geometry": $.parseJSON($("#geojson").val()),
                                 },
                             ];
-                        } catch (e if e instanceof SyntaxError) {
-                            alert("Error in GeoJSON input: "+e.message);
+                        } catch (e) {
+                            if (e instanceof SyntaxError) {
+                                alert("Error in GeoJSON input: "+e.message);
+                            } else {
+                                throw e;
+                            }
                         }
                         lastLayer = L.geoJson(polygon, {
                             filter: function(feature, layer) {
