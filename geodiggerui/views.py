@@ -113,8 +113,6 @@ class GeoDiggerUI(object):
             # Get users.
             if self.request.POST['users'] != u'':
                 userlimit = int(self.request.POST['users'])
-                # TODO: Aggregation, limit the number of users.
-                # Randomize data first!
             else:
                 userlimit = 0
 
