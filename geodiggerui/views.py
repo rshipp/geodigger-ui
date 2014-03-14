@@ -47,7 +47,9 @@ class GeoDiggerUI(object):
             self.error = None
         except pymongo.errors.ConnectionFailure:
             self.db = None
-            self.error = 'dberror'
+            # FIXME: Testing
+            #self.error = 'dberror'
+            self.error = None
 
 
     @view_config(route_name='home',
@@ -74,11 +76,9 @@ class GeoDiggerUI(object):
             # Get geometry.
             if self.request.POST['geojson'] != u'':
                 geojson = ast.literal_eval(self.request.POST['geojson'])
-                query['loc'] = {
-                    '$within': {
-                        '$polygon': geojson['coordinates'][0],
-                    },
-                }
+                polygon = geojson['coordinates'][0]
+            else:
+                polygon = None
 
             # Get min/max date.
             minDate = self.request.POST['minDate']
@@ -116,12 +116,6 @@ class GeoDiggerUI(object):
             else:
                 userlimit = 0
 
-            # Get download type.
-            if self.request.POST['downloadtype'] == u'CSV':
-                downloadtype = 'CSV'
-            else:
-                downloadtype = 'JSON'
-
             # Get email.
             if self.request.POST['email'] != u'':
                 email = str(self.request.POST['email'])
@@ -130,8 +124,9 @@ class GeoDiggerUI(object):
 
             # Run the query.
             if 'submit' in self.request.params:
-                querythread = QueryThread(self.db, query, email,
-                        userlimit, downloadtype, self.request.host)
+                print query
+                querythread = QueryThread(self.db, query, polygon,
+                        email, userlimit, self.request.host)
                 querythread.start()
 
         except Exception as e:
