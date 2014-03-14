@@ -24,39 +24,34 @@ class GeoDiggerUI(object):
             db = conn[config.mongo['database']]
             self.db = db[config.mongo['collection']]
             self.error = None
+
+            # Read settings from the server.
+            # TODO: Make this smarter.
+            first = [r for r in self.db.find().limit(1)][0]['time']
+            self.minDate = "%s, %s, %s" % (first.year, int(first.month-1), first.day)
+            now = datetime.datetime.now()
+            self.maxDate = "%s, %s, %s" % (now.year, int(now.month-1), now.day)
+            self.sources = ['Twitter']
+
+            # Set up view parameters.
+            self.sliderOptions = str({
+                'bounds': {
+                    'min': 'new Date('+self.minDate+')',
+                    'max': 'new Date('+self.maxDate+')'
+                },
+                'defaultValues': {
+                    'min': 'new Date('+self.minDate+')',
+                    'max': 'new Date('+self.maxDate+')'
+                },
+                'scales': [{
+                'next': 'function(value){ var next = new Date(value); return new Date(next.setMonth(value.getMonth() + 1)); }',
+                'label': 'function(value){ return months[value.getMonth()]; }',
+                }],
+            }).replace("'", '')
         except pymongo.errors.ConnectionFailure:
-            self.db = None
+            self.sources = None
+            self.sliderOptions = None
             self.error = 'dberror'
-
-        # Read settings from the server.
-        # TODO: Make this smarter.
-        first = [r for r in self.db.find().limit(1)][0]['time']
-        self.minDate = "%s, %s, %s" % (first.year, int(first.month-1), first.day)
-        now = datetime.datetime.now()
-        self.maxDate = "%s, %s, %s" % (now.year, int(now.month-1), now.day)
-        self.sources = ['Twitter']
-
-        # Set up view parameters.
-        self.sliderOptions = str({
-            'bounds': {
-                'min': 'new Date('+self.minDate+')',
-                'max': 'new Date('+self.maxDate+')'
-            },
-            'defaultValues': {
-                'min': 'new Date('+self.minDate+')',
-                'max': 'new Date('+self.maxDate+')'
-            },
-            'scales': [{
-            'next': 'function(value){ var next = new Date(value); return new Date(next.setMonth(value.getMonth() + 1)); }',
-            'label': 'function(value){ return months[value.getMonth()]; }',
-            }],
-        }).replace("'", '')
-
-    @view_config(route_name='home',
-            renderer='templates/home.pt',
-            request_method='GET')
-    def home_get(self):
-        return dict(title="Setup", progress=45, error=self.error)
 
     @view_config(route_name='filter',
             renderer='templates/filter.pt',
