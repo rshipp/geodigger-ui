@@ -146,6 +146,10 @@ class QueryThread(threading.Thread):
                 # No user limit, just rename the file.
                 subprocess.check_call(["mv", self.tfilepath,
                     self.filepath])
+            # Remove the tmp file.
+            if os.path.exists(self.tfilepath):
+                os.remove(self.tfilepath)
+
 
         except Exception as e:
             msg = "A problem occurred while processing your query.\n" +\
