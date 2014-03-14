@@ -1,7 +1,7 @@
 import re
 import exceptions
 import pymongo
-from datetime import datetime
+import datetime
 import ast
 
 from pyramid.httpexceptions import HTTPFound
@@ -84,11 +84,11 @@ class GeoDiggerUI(object):
             if (minDate != u'' or maxDate != u''):
                 query['time'] = {}
             if (minDate != u''):
-                minDate = datetime.combine(datetime.strptime(minDate,
+                minDate = datetime.datetime.combine(datetime.datetime.strptime(minDate,
                     datefmt).date(), datetime.time(0, 0))
                 query['time']['$gt'] = minDate
             if (maxDate != u''):
-                maxDate = datetime.combine(datetime.strptime(maxDate,
+                maxDate = datetime.datetime.combine(datetime.datetime.strptime(maxDate,
                     datefmt).date(), datetime.time(0, 0))
                 query['time']['$lt'] = maxDate
 
