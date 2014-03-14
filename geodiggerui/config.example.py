@@ -9,3 +9,6 @@ email = {
     'address': '',
     'password': '',
 }
+ui = {
+    'tmp': '/tmp/geodiggerui',
+}

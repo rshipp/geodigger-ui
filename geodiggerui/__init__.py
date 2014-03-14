@@ -1,12 +1,13 @@
 import os
 from pyramid.config import Configurator
 
+import geodiggerui.config as config
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
     # Make sure the Temp dir exists.
-    ui_tmp_dir = '/tmp/geodiggerui'
+    ui_tmp_dir = config.ui['tmp']
     if not os.path.exists(ui_tmp_dir):
         os.makedirs(ui_tmp_dir)
 

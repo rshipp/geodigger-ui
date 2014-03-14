@@ -30,8 +30,8 @@ class QueryThread(threading.Thread):
         uniq = SHA.new("%s.%s" % (int(time.time()*1000),
             random.random())).hexdigest()
         self.filename = uniq + '.csv'
-        self.filepath = "/tmp/geodiggerui/" + self.filename
-        self.tfilepath = "/tmp/geodiggerui/tmp" + self.filename
+        self.filepath = config.ui['tmp'] + '/' + self.filename
+        self.tfilepath = config.ui['tmp'] + '/tmp' + self.filename
         # Email settings
         self.username = config.email['username']
         self.password = config.email['password']
