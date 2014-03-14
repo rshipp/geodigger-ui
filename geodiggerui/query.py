@@ -140,7 +140,7 @@ class QueryThread(threading.Thread):
                         self.userlimit)
                 with open(self.tfilepath, 'r+') as f, open(self.filepath, 'w+') as output:
                     for line in f:
-                        if line[0] in users:
+                        if line.split(',')[0] in users:
                             output.write(line)
             else:
                 # No user limit, just rename the file.
