@@ -5,7 +5,7 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       metal:define-macro="layout">
 <head>
-    <title>${title} | GeoDigger UI</title>
+    <title>GeoDigger UI</title>
     <link rel="stylesheet"
           href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css"
