@@ -134,8 +134,8 @@ class QueryThread(threading.Thread):
                             skip = True
             # If a user limit was specified, use it.
             if self.userlimit != 0:
-                if self.userlimit > seq:
-                    self.userlimit = seq
+                if self.userlimit >= seq:
+                    self.userlimit = seq-1
                 users = random.sample(range(1, seq),
                         self.userlimit)
                 with open(self.tfilepath, 'r+') as f, open(self.filepath, 'w+') as output:
