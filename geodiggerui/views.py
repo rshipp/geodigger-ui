@@ -18,9 +18,22 @@ class GeoDiggerUI(object):
         renderer = get_renderer("templates/layout.pt")
         self.layout = renderer.implementation().macros['layout']
 
+        # Connect to the database.
+        try:
+            conn = pymongo.Connection(config.mongo['server'])
+            db = conn[config.mongo['database']]
+            self.db = db[config.mongo['collection']]
+            self.error = None
+        except pymongo.errors.ConnectionFailure:
+            self.db = None
+            self.error = 'dberror'
+
         # Read settings from the server.
-        self.minDate = "2012, 0, 1"
-        self.maxDate = "2013, 11, 31"
+        # TODO: Make this smarter.
+        first = self.db.find().limit(1)['time']
+        self.minDate = "2012, 0, 1" % (first.year, first.month-1, first.day)
+        now = datetime.datetime.now()
+        self.maxDate = "%s, %s, %s" % (now.year, now.month-1, now.day)
         self.sources = ['Twitter']
 
         # Set up view parameters.
@@ -38,16 +51,6 @@ class GeoDiggerUI(object):
             'label': 'function(value){ return months[value.getMonth()]; }',
             }],
         }).replace("'", '')
-
-        # Connect to the database.
-        try:
-            conn = pymongo.Connection(config.mongo['server'])
-            db = conn[config.mongo['database']]
-            self.db = db[config.mongo['collection']]
-            self.error = None
-        except pymongo.errors.ConnectionFailure:
-            self.db = None
-            self.error = 'dberror'
 
     @view_config(route_name='home',
             renderer='templates/home.pt',
