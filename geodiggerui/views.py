@@ -47,10 +47,7 @@ class GeoDiggerUI(object):
             self.error = None
         except pymongo.errors.ConnectionFailure:
             self.db = None
-            # FIXME: Testing
-            #self.error = 'dberror'
-            self.error = None
-
+            self.error = 'dberror'
 
     @view_config(route_name='home',
             renderer='templates/home.pt',
@@ -87,10 +84,12 @@ class GeoDiggerUI(object):
             if (minDate != u'' or maxDate != u''):
                 query['time'] = {}
             if (minDate != u''):
-                minDate = datetime.strptime(minDate, datefmt).date()
+                minDate = datetime.combine(datetime.strptime(minDate,
+                    datefmt).date(), datetime.time(0, 0))
                 query['time']['$gt'] = minDate
             if (maxDate != u''):
-                maxDate = datetime.strptime(maxDate, datefmt).date()
+                maxDate = datetime.combine(datetime.strptime(maxDate,
+                    datefmt).date(), datetime.time(0, 0))
                 query['time']['$lt'] = maxDate
 
             ## Get weekends/weekdays.
@@ -124,7 +123,6 @@ class GeoDiggerUI(object):
 
             # Run the query.
             if 'submit' in self.request.params:
-                print query
                 querythread = QueryThread(self.db, query, polygon,
                         email, userlimit, self.request.host)
                 querythread.start()
