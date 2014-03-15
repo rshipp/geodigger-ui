@@ -135,8 +135,12 @@ class QueryThread(threading.Thread):
                             skip = True
             # If a user limit was specified, use it.
             if self.userlimit != 0:
-                numusers = int(subprocess.check_output(["tail", "-1",
-                    self.tfilepath]).split(',')[0])
+                numusers = subprocess.check_output(["tail", "-1",
+                    self.tfilepath]).split(',')[0]
+                if len(numusers) == 0:
+                    raise Exception("No tweets were found matching your query.")
+                else:
+                    numusers = int(numusers)
                 if self.userlimit >= numusers:
                     self.userlimit = numusers-1
                 users = random.sample(range(1, numusers),
@@ -152,7 +156,6 @@ class QueryThread(threading.Thread):
             # Remove the tmp file.
             if os.path.exists(self.tfilepath):
                 os.remove(self.tfilepath)
-
 
         except Exception as e:
             msg = "A problem occurred while processing your query.\n" +\
