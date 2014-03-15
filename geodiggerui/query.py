@@ -138,7 +138,7 @@ class QueryThread(threading.Thread):
                 numusers = subprocess.check_output(["tail", "-1",
                     self.tfilepath]).split(',')[0]
                 if len(numusers) == 0:
-                    raise Exception("No tweets were found matching your query.")
+                    raise Exception("No records were found matching your query.")
                 else:
                     numusers = int(numusers)
                 if self.userlimit >= numusers:
