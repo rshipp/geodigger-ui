@@ -153,9 +153,6 @@ class QueryThread(threading.Thread):
                 # No user limit, just rename the file.
                 subprocess.check_call(["mv", self.tfilepath,
                     self.filepath])
-            # Remove the tmp file.
-            if os.path.exists(self.tfilepath):
-                os.remove(self.tfilepath)
 
         except Exception as e:
             msg = "A problem occurred while processing your query.\n" +\
@@ -165,6 +162,10 @@ class QueryThread(threading.Thread):
             msg = "Your query has completed. The resulting data" +\
                   "file is available for download at\n" +\
                   "http://"+self.host+"/download/"+self.filename+"\n"
+        finally:
+            # Remove the tmp file.
+            if os.path.exists(self.tfilepath):
+                os.remove(self.tfilepath)
 
         # Email the results.
         try:
