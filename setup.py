@@ -11,14 +11,16 @@ requires = [
     'waitress',
     'pyramid_chameleon',
     'pymongo',
+    'shapely',
     ]
 
 setup(name='geodiggerui',
-      version='0.0',
+      version='0.1',
       description='geodiggerui',
       long_description=README,
       classifiers=[
         "Programming Language :: Python",
+        "Operating System :: POSIX :: Linux",
         "Framework :: Pyramid",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
