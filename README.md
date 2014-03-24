@@ -20,3 +20,7 @@ To use Pyramid's built-in development server, run
 Browse to http://localhost:8080/ to see the frontend.
 
 Note: pserve should NOT be used in a production environment. Instead, set up nginx or Apache with a `wsgi` module to serve the site.
+
+## Screenshot
+
+![Screenshot](https://raw.github.com/GeoDigger/geodigger-ui/master/images/frontend.png "Screenshot")
