@@ -23,4 +23,4 @@ Note: pserve should NOT be used in a production environment. Instead, set up ngi
 
 ## Screenshot
 
-![Screenshot](https://raw.github.com/GeoDigger/geodigger-ui/master/images/frontend.png "Screenshot")
+![Screenshot](https://raw.githubusercontent.com/GeoDigger/geodigger-ui/master/frontend.png "Screenshot")
