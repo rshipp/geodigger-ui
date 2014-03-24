@@ -7,7 +7,7 @@ The web interface for GeoDigger, which allows filtering of GeoDigger information
 
     git clone git://github.com/GeoDigger/geodigger-ui.git
     cd geodigger-ui
-    python setup.py install
+    sudo python setup.py install
 
 ## Usage
 
