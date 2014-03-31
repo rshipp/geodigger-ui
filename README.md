@@ -21,6 +21,13 @@ Browse to http://localhost:8080/ to see the frontend.
 
 Note: pserve should NOT be used in a production environment. Instead, set up nginx or Apache with a `wsgi` module to serve the site.
 
+## Known Issues
+
+GeoDiggerUI does not recognize polygons within polygons as areas of
+exclusion, even though they are displayed that way by the map component.
+Instead, a point will be treated as inside the target area if it falls
+within *any* of the included areas in the GeoJSON polygon.
+
 ## Screenshot
 
 ![Screenshot](https://raw.githubusercontent.com/GeoDigger/geodigger-ui/master/frontend.png "Screenshot")

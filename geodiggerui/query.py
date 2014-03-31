@@ -12,19 +12,19 @@ import pymongo
 import geodiggerui.config as config
 
 class QueryThread(threading.Thread):
-    def __init__(self, db, query, polygon, email, userlimit, host):
+    def __init__(self, db, query, polygons, email, userlimit, host):
         super(QueryThread, self).__init__()
         self.daemon = True
         self.db = db
         self.query = query
-        self.polygon = polygon
-        if self.polygon == None:
-            self.polygon = [
+        self.polygons = [ Polygon(p) for p in polygons ]
+        if self.polygons == None:
+            self.polygons = [Polygon([
                     [-180, 90],
                     [-180, -90],
                     [180, -90],
                     [180, 90]
-            ]
+            ])]
         self.email = email
         self.userlimit = userlimit
         self.host = host
@@ -38,6 +38,13 @@ class QueryThread(threading.Thread):
         self.password = config.email['password']
         self.address = config.email['address']
         self.emailserver = config.email['server']
+
+    def pointInPolygons(self, point):
+        # point.within(self.polygons)
+        for polygon in self.polygons:
+            if point.within(polygon):
+                return True
+        return False
 
     def run(self):
         # Run the query.
@@ -56,7 +63,6 @@ class QueryThread(threading.Thread):
                 self.filepath])
             # Do postprocessing.
             # Initial values.
-            polygon = Polygon(self.polygon)
             current = None
             skip = False
             tweets = []
@@ -72,7 +78,7 @@ class QueryThread(threading.Thread):
                     location = (float(data[2]), float(data[3]))
                     point = Point(location)
                     # location is in target area
-                    if point.within(polygon):
+                    if self.pointInPolygons(point):
                         # 1st user? 
                         if current == None:
                             tweets.append([date, location])

@@ -71,9 +71,9 @@ class GeoDiggerUI(object):
             # Get geometry.
             if self.request.POST['geojson'] != u'':
                 geojson = ast.literal_eval(self.request.POST['geojson'])
-                polygon = geojson['coordinates'][0]
+                polygons = geojson['coordinates']
             else:
-                polygon = None
+                polygons = None
 
             # Get min/max date.
             minDate = self.request.POST['minDate']
@@ -119,7 +119,7 @@ class GeoDiggerUI(object):
 
             # Run the query.
             if 'submit' in self.request.params:
-                querythread = QueryThread(self.db, query, polygon,
+                querythread = QueryThread(self.db, query, polygons,
                         email, userlimit, self.request.host)
                 querythread.start()
 
