@@ -71,7 +71,12 @@ class GeoDiggerUI(object):
             # Get geometry.
             if self.request.POST['geojson'] != u'':
                 geojson = ast.literal_eval(self.request.POST['geojson'])
-                polygons = geojson['coordinates']
+                if geojson['type'] == "Polygon":
+                    polygons = geojson['coordinates']
+                elif geojson['type'] == "MultiPolygon":
+                    polygons = geojson['coordinates'][0]
+                else:
+                    raise Exception('Invalid GeoJSON shape.')
             else:
                 polygons = None
 
