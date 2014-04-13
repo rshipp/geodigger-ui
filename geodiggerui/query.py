@@ -17,14 +17,16 @@ class QueryThread(threading.Thread):
         self.daemon = True
         self.db = db
         self.query = query
-        if self.polygons == None:
+        if polygons == None:
             self.polygons = [[
                     [-180, 90],
                     [-180, -90],
                     [180, -90],
                     [180, 90]
             ]]
-        self.polygons = [ Polygon(p) for p in polygons ]
+        else:
+            self.polygons = polygons
+        self.polygons = [ Polygon(p) for p in self.polygons ]
         self.email = email
         self.userlimit = userlimit
         self.host = host
