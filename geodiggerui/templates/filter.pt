@@ -153,6 +153,17 @@
                 </div>
             </div>
 
+            <!-- Content -->
+            <div class="row form-group">
+                <h3>
+                    <small>
+                        <span class="glyphicon glyphicon-comment"></span>
+                    </small> Message Content Filter
+                </h3>
+                <input type="text" class="form-control" id="text"
+                       name="text" placeholder="Default: All content">
+            </div>
+
             <!-- Users -->
             <div class="row form-group">
                 <h3>
