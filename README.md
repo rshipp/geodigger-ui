@@ -30,4 +30,4 @@ within *any* of the included areas in the GeoJSON polygon.
 
 ## Screenshot
 
-![Screenshot](https://raw.githubusercontent.com/GeoDigger/geodigger-ui/master/frontend.png "Screenshot")
+![Screenshot](frontend.png "Screenshot")
